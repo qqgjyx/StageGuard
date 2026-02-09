@@ -1,0 +1,30 @@
+# AccuSleep — Mouse EEG/EMG sleep staging
+# Dataset: https://zenodo.org/records/4079563
+# 3-state classification: Wake, NREM, REM
+# Epoch length: 4 seconds
+
+dataset_name: AccuSleep
+dataset_url: https://zenodo.org/records/4079563
+
+stage_names: [Wake, NREM, REM]
+num_classes: 3
+epoch_sec: 4.0
+
+# Rare transitions: direct Wake↔REM is physiologically rare in mice
+rare_transitions:
+  - [0, 2]  # Wake → REM
+  - [2, 0]  # REM → Wake
+
+# Transition penalty weight
+lambda_trans: 1.0
+
+# Semi-Markov decoder
+d_max: 50
+epsilon: 5.0
+gamma: 2.0
+k: 5
+d_min: [2, 3, 2]  # Wake ≥ 2 epochs (8s), NREM ≥ 3 (12s), REM ≥ 2 (8s)
+
+# Signal quality
+sqi_method: spectral_entropy
+sqi_threshold: 0.4

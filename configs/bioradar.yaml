@@ -1,0 +1,29 @@
+# SLEEPBRL — Bioradar-based contactless sleep staging
+# 3-state classification: Wake, Light Sleep, Deep Sleep
+# Epoch length: 30 seconds
+
+dataset_name: SLEEPBRL
+dataset_url: null
+
+stage_names: [Wake, Light, Deep]
+num_classes: 3
+epoch_sec: 30.0
+
+# Rare transitions: Wake↔Deep is physiologically rare
+rare_transitions:
+  - [0, 2]  # Wake → Deep
+  - [2, 0]  # Deep → Wake
+
+# Transition penalty weight
+lambda_trans: 1.0
+
+# Semi-Markov decoder
+d_max: 30
+epsilon: 5.0
+gamma: 2.0
+k: 5
+d_min: [2, 3, 3]  # Wake ≥ 60s, Light ≥ 90s, Deep ≥ 90s
+
+# Signal quality
+sqi_method: signal_amplitude
+sqi_threshold: 0.4
